@@ -1,37 +1,33 @@
-# PLANORA — Panduan Instalasi XAMPP
-
-## Struktur Folder
-
 ```
-planora/                        ← Taruh di C:\xampp\htdocs\planora\
+planora/
 │
-├── index.html                  ← Landing page (entry point utama)
+├── index.html
 │
-├── app/                        ← Semua halaman HTML aplikasi
+├── app/
 │   ├── login.html
 │   ├── register.html
 │   ├── workspace.html
 │   ├── profil.html
 │   └── landing.html
 │
-├── api/                        ← Backend PHP
-│   ├── auth.php                ← Endpoint: register & login
-│   ├── tasks.php               ← Endpoint: CRUD tugas
-│   ├── user.php                ← Endpoint: update profil
+├── api/
+│   ├── auth.php
+│   ├── tasks.php
+│   ├── user.php
 │   ├── config/
-│   │   └── database.php        ← Konfigurasi koneksi MySQL
+│   │   └── database.php
 │   ├── controllers/
 │   │   ├── AuthController.php
 │   │   ├── TaskController.php
 │   │   └── UserController.php
 │   └── helpers/
-│       └── response.php        ← Helper JSON response
+│       └── response.php
 │
 ├── assets/
 │   ├── css/
-│   │   └── style.css           ← Global stylesheet
+│   │   └── style.css
 │   ├── js/
-│   │   └── app.js              ← Global JS utilities
+│   │   └── app.js
 │   └── img/
 │       ├── Lg.png
 │       ├── logo.png
@@ -39,58 +35,8 @@ planora/                        ← Taruh di C:\xampp\htdocs\planora\
 │       └── bg2.png
 │
 └── database/
-    └── db_planora.sql          ← Script SQL database
+    └── db_planora.sql
 ```
-
----
-
-## Langkah Instalasi
-
-### 1. Copy ke htdocs
-Salin seluruh folder `planora` ke:
-```
-C:\xampp\htdocs\planora\
-```
-
-### 2. Jalankan XAMPP
-- Buka **XAMPP Control Panel**
-- Klik **Start** pada **Apache** dan **MySQL**
-
-### 3. Import Database
-- Buka browser → `http://localhost/phpmyadmin`
-- Klik tab **SQL**
-- Copy-paste isi file `database/db_planora.sql` → klik **Go**
-
-### 4. (Opsional) Sesuaikan Konfigurasi
-Buka `api/config/database.php` jika perlu ubah kredensial:
-```php
-define('DB_USER', 'root');   // username MySQL
-define('DB_PASS', '');       // password MySQL (default XAMPP: kosong)
-```
-
-### 5. Buka Aplikasi
-```
-http://localhost/planora/
-```
-
----
-
-## Peta Endpoint API
-
-| Endpoint              | Method | Aksi            |
-|-----------------------|--------|-----------------|
-| `api/auth.php?action=register` | POST | Daftar akun baru |
-| `api/auth.php?action=login`    | POST | Login           |
-| `api/tasks.php?action=list`    | GET  | Ambil tugas     |
-| `api/tasks.php?action=tambah`  | POST | Tambah tugas    |
-| `api/tasks.php?action=selesai` | POST | Selesaikan tugas|
-| `api/user.php`                 | POST | Update profil   |
-
----
-
-## Troubleshooting
-
-| Masalah | Solusi |
 |---------|--------|
 | "Tidak bisa terhubung ke server" | Pastikan Apache & MySQL XAMPP sudah **Start** |
 | "Koneksi database gagal" | Cek `api/config/database.php` |
