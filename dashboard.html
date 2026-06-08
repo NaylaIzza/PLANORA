@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planora Workspace - Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Mengatur background full screen yang fixed */
+        body {
+            background-image: url('bg1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none max-w-sm w-full"></div>
+
+    <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="Lg.png" alt="Logo Planora" class="h-8 w-auto object-contain rounded-md">
+                <div class="text-2xl font-bold text-blue-600 tracking-tight">Planora</div>
+                <span class="text-xs bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-md font-semibold border border-blue-100">Workspace</span>
+                
+                <ul class="flex items-center gap-4 ml-6 border-l border-slate-200 pl-6">
+                    <li class="nav-item">
+                        <a class="nav-link small text-xs font-bold text-slate-600 hover:text-blue-600 transition" href="note.html">📋 Note Histori</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden sm:block">
+                    <p id="user-display-name" class="text-sm font-bold text-slate-800">Memuat...</p>
+                    <p id="user-display-email" class="text-[11px] text-slate-400 font-medium">user@email.com</p>
+                </div>
+                <button onclick="toggleProfileView(true)" class="cursor-pointer text-xs font-semibold text-slate-600 hover:text-blue-600 bg-slate-100 hover:bg-blue-50 px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+                    👤 Profil Saya
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main-dashboard-content" class="max-w-7xl w-full mx-auto p-6 flex-1 grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-white/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-xs h-fit">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <span class="inline-block w-2 h-4 bg-blue-600 rounded-xs"></span> Catat Tugas Baru
+            </h2>
+            <form id="task-form" onsubmit="addTask(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Judul Tugas / Proyek</label>
+                    <input id="task-title" type="text" placeholder="Contoh: Laporan Akhir Praktikum" required class="w-full bg-white px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Mata Kuliah</label>
+                    <input id="task-course" type="text" placeholder="Contoh: Pemrograman Web" required class="w-full bg-white px-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Batas Sisa Hari</label>
+                        <select id="task-days" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="3">Mendesak (&lt; 2 Hari)</option>
+                            <option value="2">Sedang (3-7 Hari)</option>
+                            <option value="1">Senggang (&gt; 7 Hari)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tingkat Kesulitan</label>
+                        <select id="task-difficulty" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="3">Tinggi (Kelompok/Proyek)</option>
+                            <option value="2">Sedang (Analisis Kasus)</option>
+                            <option value="1">Rendah (Mandiri/Resume)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="cursor-pointer w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-sm transition mt-2 shadow-sm shadow-blue-100">Kalkulasi Antrean</button>
+            </form>
+        </div>
+
+        <div class="md:col-span-2 flex flex-col space-y-6">
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                <div class="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Tugas</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span id="info-total-tasks" class="text-2xl font-extrabold text-slate-800">0</span>
+                        <span class="text-xs text-slate-400">aktif</span>
+                    </div>
+                </div>
+                <div class="bg-rose-50/80 backdrop-blur-md p-4 rounded-2xl border border-rose-100 shadow-xs flex flex-col justify-between">
+                    <span class="text-[11px] font-bold text-rose-500 uppercase tracking-wider">🚨 Krusial</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span id="info-krusial-tasks" class="text-2xl font-extrabold text-rose-600">0</span>
+                        <span class="text-xs text-rose-400">butuh aksi</span>
+                    </div>
+                </div>
+                <div class="bg-blue-50/80 backdrop-blur-md p-4 rounded-2xl border border-blue-100 shadow-xs flex flex-col justify-between">
+                    <span class="text-[11px] font-bold text-blue-600 uppercase tracking-wider">⏳ Sedang</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span id="info-sedang-tasks" class="text-2xl font-extrabold text-blue-600">0</span>
+                        <span class="text-xs text-blue-400">antrean</span>
+                    </div>
+                </div>
+                <div class="bg-amber-50/80 backdrop-blur-md p-4 rounded-2xl border border-amber-100 shadow-xs flex flex-col justify-between">
+                    <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider">🟡 Rendah</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span id="info-rendah-tasks" class="text-2xl font-extrabold text-amber-600">0</span>
+                        <span class="text-xs text-amber-600">santai</span>
+                    </div>
+                </div>
+                <div class="bg-emerald-50/80 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-xs flex flex-col justify-between">
+                    <span class="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">✅ Selesai</span>
+                    <div class="flex items-baseline gap-1 mt-2">
+                        <span id="info-completed-tasks" class="text-2xl font-extrabold text-emerald-600">0</span>
+                        <span class="text-xs text-emerald-600">hari ini</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col space-y-3 flex-1">
+                <h2 class="text-sm font-bold text-slate-700 tracking-wide uppercase bg-white/50 backdrop-blur-xs w-fit px-2 py-0.5 rounded-md">Urutan Eksekusi Terkalkulasi</h2>
+                <div id="task-container" class="space-y-3 overflow-y-auto max-h-[450px]">
+                    <div id="empty-state" class="bg-white/90 backdrop-blur-md border border-dashed border-slate-300 rounded-2xl p-12 text-center text-slate-400 text-sm">
+                        Belum ada tugas akademik yang dicatat hari ini.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="profile-content-view" class="hidden p-6 max-w-3xl w-full mx-auto flex-1 flex flex-col justify-between">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800">Profil & Manajemen Workspace</h2>
+                    <p class="text-xs text-slate-400">Atur kredensial data personal, identitas akademik, dan webhook notifikasi.</p>
+                </div>
+                <button onclick="toggleProfileView(false)" class="cursor-pointer text-xs font-bold text-blue-600 hover:bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 transition">
+                    &larr; Beranda
+                </button>
+            </div>
+
+            <form id="profile-full-form" onsubmit="saveUserProfile(event)" class="space-y-6">
+                <div class="flex flex-col sm:flex-row items-center gap-5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                    <div class="relative group">
+                        <img id="avatar-preview" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>" alt="Avatar" class="w-20 h-20 bg-blue-50 rounded-2xl object-cover border border-blue-200 shadow-inner">
+                    </div>
+                    <div class="text-center sm:text-left space-y-2">
+                        <label class="block text-xs font-bold text-slate-700">Foto Profil Pengguna</label>
+                        <div class="flex items-center gap-2">
+                            <input type="file" id="profile-avatar-input" accept="image/*" onchange="previewImageAvatar(event)" class="hidden">
+                            <button type="button" onclick="document.getElementById('profile-avatar-input').click()" class="cursor-pointer bg-white border border-slate-200 hover:border-blue-500 text-slate-700 text-xs px-3 py-2 rounded-xl font-semibold shadow-xs transition">
+                                📷 Ubah Foto Profil
+                            </button>
+                            <button type="button" onclick="resetAvatarImage()" class="cursor-pointer text-rose-600 hover:bg-rose-50 text-xs px-2.5 py-2 rounded-xl font-medium transition">
+                                Hapus
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-slate-400">Mendukung format PNG, JPG, atau SVG (Maks. 2MB).</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Nama Lengkap</label>
+                        <input id="profile-name-input" type="text" required placeholder="Nama Anda" class="w-full bg-white px-4 py-2.5 rounded-xl border text-sm border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Alamat Email</label>
+                        <input id="profile-email-input" type="email" required placeholder="nama@kampus.id" class="w-full bg-white px-4 py-2.5 rounded-xl border text-sm border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Identitas / Informasi Akademik</label>
+                        <input id="profile-identity-input" type="text" placeholder="Contoh: S1 Teknik Informatika - Universitas Planora (NIM: 22010192)" class="w-full bg-white px-4 py-2.5 rounded-xl border text-sm border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100">
+                    <h3 class="text-sm font-bold text-slate-700 mb-1 flex items-center gap-1.5">
+                        ✈️ Ekosistem Integrasi Telegram
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-3">Tautkan akun Telegram Anda untuk menerima alert desakan deadline tugas akademik secara berkala.</p>
+                    <div class="max-w-xs">
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">ID Chat Telegram</label>
+                        <input id="telegram-chat-id" type="text" placeholder="Masukkan ID Chat Telegram" class="w-full bg-white px-4 py-2 rounded-xl border text-sm border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                    <button type="button" onclick="toggleProfileView(false)" class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold px-5 py-2.5 rounded-xl transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition shadow-md shadow-blue-100">
+                        Simpan Pembaruan Profil
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="flex justify-end mt-8">
+            <button onclick="logout()" class="cursor-pointer text-xs font-bold bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-5 py-3 rounded-xl transition shadow-sm flex items-center gap-2">
+                🚪 Keluar dari Workspace
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+        let totalCompletedCount = 0;
+        let isTelegramConnected = false;
+        let telegramChatIdStr = "";
+        let currentUser = null;
+        const defaultAvatar = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/><circle cx='12' cy='7' r='4'/></svg>";
+
+        // --- VALIDASI SESSION SINKRONISASI INDEX.HTML & AMBIL DATA LOKAL ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const localData = localStorage.getItem('planoraUser');
+            
+            if (!localData) {
+                alert("Sesi tidak ditemukan. Silakan login atau mendaftar terlebih dahulu.");
+                window.location.href = "index.html";
+                return;
+            }
+
+            currentUser = JSON.parse(localData);
+            syncNavbarDisplay();
+
+            if (currentUser.telegram) {
+                document.getElementById('telegram-chat-id').value = currentUser.telegram;
+                isTelegramConnected = true;
+            }
+
+            // Ambil data antrean tugas yang tersimpan di localStorage agar tidak hilang saat di-refresh
+            const savedTasks = localStorage.getItem('tugas_planora');
+            if (savedTasks) {
+                // Yang ditampilkan di halaman utama hanya tugas yang isCompleted-nya bernilai false
+                const semuaData = JSON.parse(savedTasks);
+                tasks = semuaData.filter(t => t.isCompleted === false);
+                
+                // Hitung total tugas yang sudah berstatus selesai sepanjang waktu untuk widget counter
+                totalCompletedCount = semuaData.filter(t => t.isCompleted === true).length;
+            }
+
+            showNotification(`Selamat datang kembali, ${currentUser.nama}!`, 'success');
+            renderTasks();
+        });
+
+        // --- UPDATE INFORMASI ATAS NAVBAR ---
+        function syncNavbarDisplay() {
+            if (currentUser) {
+                document.getElementById('user-display-name').innerText = currentUser.nama;
+                document.getElementById('user-display-email').innerText = currentUser.email;
+            }
+        }
+
+        // --- PREVIEW & ACTION FOTO PROFIL ---
+        function previewImageAvatar(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('avatar-preview');
+                output.src = reader.result;
+                if(currentUser) {
+                    currentUser.avatarData = reader.result;
+                }
+            }
+            if(event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("Current time context active:", "2026-06-08 19:11:00");
+        });
+
+        function resetAvatarImage() {
+            document.getElementById('avatar-preview').src = defaultAvatar;
+            document.getElementById('profile-avatar-input').value = "";
+            if(currentUser) {
+                currentUser.avatarData = null;
+            }
+        }
+
+        // --- SISTEM NOTIFIKASI TOAST ---
+        function showNotification(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            let bgClass = "bg-slate-800 text-white";
+            if(type === 'warning') bgClass = "bg-amber-500 text-white shadow-md shadow-amber-100";
+            if(type === 'success') bgClass = "bg-blue-600 text-white shadow-md shadow-blue-100";
+
+            const toast = document.createElement('div');
+            toast.className = `${bgClass} p-4 rounded-xl text-xs font-semibold flex items-center justify-between shadow-lg pointer-events-auto transition-all duration-300 transform translate-y-2 opacity-0`;
+            toast.innerHTML = `<span>${message}</span><button onclick="this.parentElement.remove()" class="ml-3 font-bold text-sm opacity-70 hover:opacity-100 cursor-pointer">&times;</button>`;
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // --- NAVIGASI HALAMAN ---
+        function logout() {
+            const confirmation = confirm("Apakah Anda yakin ingin keluar dari Planora Workspace?");
+            if (confirmation) {
+                window.location.href = "index.html";
+            }
+        }
+
+        function toggleProfileView(showProfile) {
+            if(showProfile) {
+                if (currentUser) {
+                    document.getElementById('profile-name-input').value = currentUser.nama;
+                    document.getElementById('profile-email-input').value = currentUser.email;
+                    document.getElementById('profile-identity-input').value = currentUser.identitas || "";
+                    document.getElementById('telegram-chat-id').value = currentUser.telegram || "";
+                    if(currentUser.avatarData) {
+                        document.getElementById('avatar-preview').src = currentUser.avatarData;
+                    }
+                }
+                document.getElementById('main-dashboard-content').classList.add('hidden');
+                document.getElementById('profile-content-view').classList.remove('hidden');
+            } else {
+                document.getElementById('profile-content-view').classList.add('hidden');
+                document.getElementById('main-dashboard-content').classList.remove('hidden');
+            }
+        }
+
+        // --- AKSI FORM SIMPAN PROFIL ---
+        function saveUserProfile(event) {
+            event.preventDefault();
+            
+            const updatedName = document.getElementById('profile-name-input').value.trim();
+            const updatedEmail = document.getElementById('profile-email-input').value.trim();
+            const updatedIdentity = document.getElementById('profile-identity-input').value.trim();
+            const telegramVal = document.getElementById('telegram-chat-id').value.trim();
+
+            if(currentUser) {
+                currentUser.nama = updatedName;
+                currentUser.email = updatedEmail;
+                currentUser.identitas = updatedIdentity;
+                currentUser.telegram = telegramVal;
+                
+                if(telegramVal !== "") {
+                    isTelegramConnected = true;
+                    telegramChatIdStr = telegramVal;
+                } else {
+                    isTelegramConnected = false;
+                    telegramChatIdStr = "";
+                }
+
+                localStorage.setItem('planoraUser', JSON.stringify(currentUser));
+                syncNavbarDisplay();
+
+                showNotification("Seluruh konfigurasi profil berhasil disimpan!", "success");
+                toggleProfileView(false);
+            }
+        }
+
+        // --- MODIFIKASI: MENYIMPAN TUGAS AKTIF KE LOCALSTORAGE ---
+        function addTask(event) {
+            event.preventDefault();
+            const title = document.getElementById('task-title').value.trim();
+            const course = document.getElementById('task-course').value.trim();
+            const daysWeight = parseInt(document.getElementById('task-days').value);
+            const difficultyWeight = parseInt(document.getElementById('task-difficulty').value);
+            
+            const calculatedScore = (daysWeight * 0.6) + (difficultyWeight * 0.4);
+
+            // Mapping keterangan teks tingkat kesulitan untuk ditampilkan di halaman Note
+            let teksKesulitan = "Rendah (Mandiri/Resume)";
+            if(difficultyWeight === 2) teksKesulitan = "Sedang (Analisis Kasus)";
+            if(difficultyWeight === 3) teksKesulitan = "Tinggi (Kelompok/Proyek)";
+
+            const newTask = {
+                id: Date.now(),
+                title: title,
+                course: course,
+                score: calculatedScore.toFixed(1),
+                rawDays: daysWeight,
+                kesulitan: teksKesulitan, // Disimpan untuk dibaca note.html
+                isCompleted: false,       // Status default aktif
+                tanggalSelesai: null      // Belum selesai
+            };
+
+            // Ambil semua data lama yang ada di localStorage
+            const savedTasks = localStorage.getItem('tugas_planora');
+            const semuaTugas = savedTasks ? JSON.parse(savedTasks) : [];
+            
+            // Masukkan data baru ke dalam array utama dan sinkronkan ke local storage
+            semuaTugas.push(newTask);
+            localStorage.setItem('tugas_planora', JSON.stringify(semuaTugas));
+
+            // Perbarui array lokal halaman aktif
+            tasks.push(newTask);
+            tasks.sort((a, b) => b.score - a.score);
+
+            if (daysWeight === 3) {
+                showNotification(`⚠️ PERINGATAN: "${title}" bersifat MENDESAK!`, 'warning');
+            } else {
+                showNotification(`Tugas "${title}" berhasil dimasukkan ke antrean.`, 'success');
+            }
+
+            document.getElementById('task-form').reset();
+            renderTasks();
+        }
+
+        // --- MODIFIKASI: PROSES TANDAI SELESAI & KIRIM ARSIP KE NOTE ---
+        function deleteTask(id) {
+            // Ambil data lengkap dari localStorage
+            const savedTasks = localStorage.getItem('tugas_planora');
+            if (savedTasks) {
+                const semuaTugas = JSON.parse(savedTasks);
+                const index = semuaTugas.findIndex(t => t.id === id);
+                
+                if (index !== -1) {
+                    // Ubah status menjadi Selesai (true) dan rekam waktu penyelesaian saat ini secara dinamis
+                    semuaTugas[index].isCompleted = true;
+                    semuaTugas[index].tanggalSelesai = new Date().toISOString();
+                    
+                    // Simpan kembali data yang sudah di-update statusnya ke localStorage
+                    localStorage.setItem('tugas_planora', JSON.stringify(semuaTugas));
+                }
+            }
+
+            // Saring array lokal agar kartu tugas yang selesai hilang dari tampilan dashboard utama
+            tasks = tasks.filter(task => task.id !== id);
+            totalCompletedCount++;
+            
+            showNotification("Tugas diselesaikan! Otomatis tercatat di halaman Note.", "success");
+            renderTasks();
+        }
+
+        // --- RENDERING & UPDATE WIDGET ---
+        function renderTasks() {
+            const container = document.getElementById('task-container');
+            container.innerHTML = "";
+
+            const totalTasks = tasks.length;
+            const krusialTasks = tasks.filter(t => t.rawDays === 3).length;
+            const sedangTasks = tasks.filter(t => t.rawDays === 2).length;
+            const rendahTasks = tasks.filter(t => t.rawDays === 1).length;
+
+            document.getElementById('info-total-tasks').innerText = totalTasks;
+            document.getElementById('info-krusial-tasks').innerText = krusialTasks;
+            document.getElementById('info-sedang-tasks').innerText = sedangTasks;
+            document.getElementById('info-rendah-tasks').innerText = rendahTasks;
+            document.getElementById('info-completed-tasks').innerText = totalCompletedCount;
+
+            if (tasks.length === 0) {
+                container.innerHTML = `<div id="empty-state" class="bg-white/90 backdrop-blur-md border border-dashed border-slate-300 rounded-2xl p-12 text-center text-slate-400 text-sm">Belum ada tugas akademik yang dicatat hari ini.</div>`;
+                return;
+            }
+
+            tasks.forEach(task => {
+                let badgeColorClass = "border-sky-200 bg-sky-50 text-sky-700";
+                if(task.score >= 2.4) badgeColorClass = "border-rose-200 bg-rose-50 text-rose-700";
+                else if(task.score >= 1.6) badgeColorClass = "border-amber-200 bg-amber-50 text-amber-700";
+
+                container.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white/95 backdrop-blur-md p-5 rounded-2xl border border-slate-200 shadow-xs flex justify-between items-center transition hover:shadow-md">
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold ${badgeColorClass} border px-2.5 py-0.5 rounded-full">Skor Prioritas: ${task.score}</span>
+                            <h3 class="text-base font-bold text-slate-800 mt-2">${task.title}</h3>
+                            <p class="text-xs text-slate-500 font-medium">Mata Kuliah: <span class="text-slate-700">${task.course}</span></p>
+                        </div>
+                        <button onclick="deleteTask(${task.id})" class="cursor-pointer bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 border border-slate-200 hover:border-emerald-200 p-2.5 rounded-xl transition text-xs font-semibold">✓ Selesai</button>
+                    </div>
+                `);
+            });
+        }
+    </script>
+</body>
+</html>

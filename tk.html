@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Tentang Planora</title>
+    <!-- Menggunakan Google Fonts agar font Inter dan Outfit dapat merender dengan benar -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Menggunakan Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('bg1.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Font khusus untuk nama Brand/Logo PLANORA */
+        .brand-font {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        /* Penyesuaian mockup tugas di sisi kanan / kartu utama bertema biru */
+        .preview-card {
+            background-color: #0066b2;
+            color: white;
+            border-radius: 16px;
+        }
+        .task-item {
+            background-color: white;
+            color: #333;
+            border-radius: 8px;
+            border-left: 5px solid;
+        }
+        .task-urgent { border-left-color: #dc3545; }
+        .task-sedang { border-left-color: #ffc107; }
+        .task-normal { border-left-color: #0d6efd; }
+
+        /* Overlay putih transparan halus agar background bg1.png menyatu dengan tema light mode */
+        .overlay {
+            background: rgba(255, 255, 255, 0.90);
+        }
+        /* Kartu informasi menggunakan basis task-item agar serasi */
+        .light-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-600 selection:text-white">
+
+    <!-- Wrapper Utama dengan Overlay Putih Terang -->
+    <div class="overlay min-h-screen w-full py-12">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            
+            <!-- Tombol Kembali ke Home (Hubungan Link) -->
+            <div class="mb-8 text-left">
+                <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-[#0066b2] hover:underline transition">
+                    <span>←</span> Kembali ke Beranda
+                </a>
+            </div>
+
+            <!-- ==================== BAGIAN 1: TENTANG APLIKASI ==================== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-[#0066b2] tracking-wide uppercase">
+                        🚀 Tentang Aplikasi
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 brand-font">
+                        Apa itu <span class="text-[#0066b2]">PLANORA?</span>
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed text-base">
+                        <strong class="text-gray-900">Planora</strong> adalah sebuah platform manajemen tugas (<span class="italic">task management</span>) berbasis web yang dirancang cerdas untuk membantu Anda mengatur, menyusun, dan menyelesaikan aktivitas harian maupun akademis secara terstruktur.
+                    </p>
+                    
+                    <!-- Latar Belakang menggunakan modifikasi border-left tebal khas tema Anda -->
+                    <!-- Latar Belakang Panjang & Mendalam (Tanpa P2MW) -->
+                    <div class="p-6 light-card rounded-xl border-l-[6px] border-[#0066b2] space-y-4">
+                        <h4 class="font-bold text-gray-900 text-lg flex items-center gap-2">
+                            🌱 Latar Belakang Pengembangan
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Di era digital yang serba cepat ini, tuntutan aktivitas akademis dan profesional sering kali datang secara bersamaan dalam intensitas yang tinggi. Banyaknya tenggat waktu (<span class="italic">deadline</span>) yang saling berdekatan memicu fenomena yang sering dialami oleh mahasiswa, pelajar, maupun pekerja, yaitu <span class="italic">burnout</span> dan kecemasan akibat penumpukan tugas. Masalah utamanya sering kali bukan karena ketiadaan waktu, melainkan ketidakmampuan dalam menentukan tugas mana yang harus diselesaikan terlebih dahulu.
+                        </p>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Melihat urgensi tersebut, kelompok mahasiswa dari <strong class="text-gray-800">Universitas Tidar</strong> menginisiasi sebuah riset dan pengembangan untuk menciptakan sebuah ekosistem manajemen waktu yang ideal. Berawal dari diskusi mengenai hambatan produktivitas harian, tim berkomitmen melahirkan solusi teknologi yang adaptif dan solutif.
+                        </p>
+                        <p class="text-sm text-gray-600 leading-relaxed">
+                            Melalui perancangan yang matang, lahirlah <strong class="text-gray-900">Planora</strong>. Platform ini didesain secara khusus untuk mengeliminasi kebingungan pengguna dalam menyusun skala prioritas lewat sistem komputasi cerdas, mengoptimalkan ritme kerja individu, serta membangun kedisiplinan yang konsisten demi mewujudkan pola hidup yang lebih produktif dan bebas stres.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kartu Visual Manfaat & Fitur Menggunakan Gaya preview-card dan task-item Anda -->
+                <div class="preview-card p-6 shadow-xl space-y-6">
+                    <div>
+                        <h3 class="font-bold text-xl text-white mb-4 flex items-center gap-2 brand-font">
+                            ⭐ FITUR UNGGULAN
+                        </h3>
+                        <div class="space-y-3">
+                            <!-- Item Fitur 1 (Urgent Style) -->
+                            <div class="task-item task-urgent p-4 shadow-sm">
+                                <h5 class="font-bold text-red-600 text-xs uppercase tracking-wider mb-1">Automatic Priority</h5>
+                                <p class="text-xs text-gray-600">Menyusun antrean tugas Anda secara cerdas berdasarkan kalkulasi tenggat waktu (<span class="italic">deadline</span>) dan tingkat kesulitan.</p>
+                            </div>
+                            <!-- Item Fitur 2 (Normal Style) -->
+                            <div class="task-item task-normal p-4 shadow-sm">
+                                <h5 class="font-bold text-blue-600 text-xs uppercase tracking-wider mb-1">Progress Monitoring</h5>
+                                <p class="text-xs text-gray-600">Pantau persentase dan grafik penyelesaian tugas Anda secara nyata dan <span class="italic">real-time</span>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blok Manfaat Terintegrasi -->
+                    <div class="border-t border-white/20 pt-4">
+                        <h4 class="font-bold text-sm text-white uppercase tracking-wider mb-3 brand-font">✨ Manfaat Utama</h4>
+                        <div class="grid grid-cols-2 gap-3 text-[11px] text-gray-700">
+                            <div class="p-2.5 bg-white rounded-lg">
+                                <span class="font-bold text-[#0066b2] block mb-0.5">Efisiensi Waktu</span>
+                                Menghemat waktu berpikir skala prioritas.
+                            </div>
+                            <div class="p-2.5 bg-white rounded-lg">
+                                <span class="font-bold text-[#0066b2] block mb-0.5">Kurangi Stres</span>
+                                Menghindari tabrakan tenggat waktu.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== BAGIAN 2: PROFIL TIM PENGEMBANG ==================== -->
+            <div class="border-t border-gray-200 pt-16">
+                <!-- Judul Tim -->
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-[#0066b2] tracking-wide uppercase">
+                        👥 Meet the Team
+                    </div>
+                    <h3 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900 brand-font">
+                        Orang di Balik <span class="text-[#0066b2]">PLANORA</span>
+                    </h3>
+                </div>
+
+                <!-- Grid Anggota Tim (5 Kolom menggunakan style task-item normal agar selaras) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
+                    <!-- Anggota 1 -->
+                    <div class="task-item task-normal p-5 text-center flex flex-col items-center hover:shadow-md transition bg-white">
+                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold mb-3 text-[#0066b2] brand-font">AD</div>
+                        <h4 class="font-bold text-sm text-gray-900">Yofi Widiyanto.</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">S1 Teknologi Informasi</p>
+                        <span class="mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-blue-50 font-medium text-[#0066b2]">Pengembang</span>
+                    </div>
+
+                    <!-- Anggota 2 -->
+                    <div class="task-item task-normal p-5 text-center flex flex-col items-center hover:shadow-md transition bg-white">
+                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold mb-3 text-[#0066b2] brand-font">FA</div>
+                        <h4 class="font-bold text-sm text-gray-900">Fadlika Alfi N.</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">S1 Teknologi Informasi</p>
+                        <span class="mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-blue-50 font-medium text-[#0066b2]">Pengembang</span>
+                    </div>
+
+                    <!-- Anggota 3 -->
+                    <div class="task-item task-normal p-5 text-center flex flex-col items-center hover:shadow-md transition bg-white">
+                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold mb-3 text-[#0066b2] brand-font">NZ</div>
+                        <h4 class="font-bold text-sm text-gray-900">Nadhifatus Zalfa.</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">S1 Teknologi Informasi</p>
+                        <span class="mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-blue-50 font-medium text-[#0066b2]">Pengembang</span>
+                    </div>
+
+                    <!-- Anggota 4 -->
+                    <div class="task-item task-normal p-5 text-center flex flex-col items-center hover:shadow-md transition bg-white">
+                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold mb-3 text-[#0066b2] brand-font">YW</div>
+                        <h4 class="font-bold text-sm text-gray-900">Apfia Dian S.</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">S1 Teknologi Informasi</p>
+                        <span class="mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-blue-50 font-medium text-[#0066b2]">Pengembang</span>
+                    </div>
+
+                    <!-- Anggota 5 -->
+                    <div class="task-item task-normal p-5 text-center flex flex-col items-center hover:shadow-md transition bg-white">
+                        <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold mb-3 text-[#0066b2] brand-font">NI</div>
+                        <h4 class="font-bold text-sm text-gray-900">Nayla Izza A.</h4>
+                        <p class="text-[11px] text-gray-500 mt-0.5">S1 Teknologi Informasi</p>
+                        <span class="mt-3 text-[10px] px-2.5 py-0.5 rounded-full bg-blue-50 font-medium text-[#0066b2]">Pengembang</span>
+                    </div>
+                </div>
+
+                <!-- Kartu Besar Dosen Pembimbing menggunakan border-left kuning (task-sedang) agar kontras -->
+                <div class="max-w-2xl mx-auto task-item task-sedang p-6 flex flex-col sm:flex-row items-center gap-5 shadow-sm bg-white">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-50 flex items-center justify-center text-xl text-yellow-600">🎓</div>
+                    <div class="text-center sm:text-left space-y-0.5">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider brand-font">Dosen Pembimbing</p>
+                        <h5 class="text-lg font-bold text-gray-900 hover:text-[#0066b2] transition">Beta Estri Adiana, S.T., M.Eng.</h5>
+                        <p class="text-xs text-gray-600">Membimbing aspek teknis serta metodologi pengembangan sistem manajemen tugas Planora.</p>
+                        <div class="pt-1.5 flex items-center justify-center sm:justify-start gap-2 text-[10px] text-gray-400">
+                            <span>Universitas Tidar</span>
+                            <span>•</span>
+                            <span class="text-[#0066b2] font-semibold">Dosen S1 Teknologi Informasi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
