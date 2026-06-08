@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planora - Smart Task Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bg-primary-light { background-color: #eff6ff; }
+        .text-primary-dark { color: #1d4ed8; }
+    </style>
+</head>
+<body class="bg-light text-dark">
+
+    <nav class="navbar navbar-expand-lg navbar-white bg-white shadow-sm py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="index.html" style="font-size: 24px; letter-spacing: 1px;">PLANORA</a>
+            <div class="ms-auto">
+                <a href="login.html" class="btn btn-link text-decoration-none text-dark fw-semibold me-2">Masuk</a>
+                <a href="register.html" class="btn btn-primary fw-semibold px-4">Coba Gratis</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-extrabold lh-sm mb-3 text-dark">
+                    Berhenti Kewalahan. Biarkan <span class="text-primary">PLANORA</span> Mengatur Prioritas Tugasmu.
+                </h1>
+                <p class="lead text-muted mb-4">
+                    Smart Task Manager berbasis web pertama yang secara otomatis menentukan urutan pengerjaan tugas akademik dan profesionalmu berdasarkan deadline dan tingkat kesulitan.
+                </p>
+                <div class="d-grid gap-3 d-sm-flex">
+                    <a href="register.html" class="btn btn-primary btn-lg px-4 fw-bold">Mulai Gratis Sekarang &rarr;</a>
+                    <a href="#" class="btn btn-outline-primary btn-lg px-4 fw-bold">Pelajari Fitur</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow border-0 p-4 bg-white">
+                    <h5 class="fw-bold mb-4 text-primary-dark"><i class="fa-solid fa-list-check me-2"></i> Tugas Harian Anda</h5>
+                    
+                    <div class="alert alert-danger d-flex justify-content-between align-items-center border-start border-5 border-danger" role="alert">
+                        <div>
+                            <strong class="d-block">Buat Laporan Proyek Akhir</strong>
+                            <small class="text-muted">Deadline: 7 Minggu | Kesulitan: Tinggi</small>
+                        </div>
+                        <span class="badge bg-danger text-uppercase p-2">Urgent</span>
+                    </div>
+
+                    <div class="alert alert-warning d-flex justify-content-between align-items-center border-start border-5 border-warning" role="alert">
+                        <div>
+                            <strong class="d-block">Review Desain UI Klien</strong>
+                            <small class="text-muted">Deadline: Besok | Kesulitan: Sedang</small>
+                        </div>
+                        <span class="badge bg-warning text-dark text-uppercase p-2">Sedang</span>
+                    </div>
+
+                    <div class="alert alert-success d-flex justify-content-between align-items-center border-start border-5 border-success" role="alert">
+                        <div>
+                            <strong class="d-block">Organisasi File Project</strong>
+                            <small class="text-muted">Deadline: 1 Minggu | Kesulitan: Rendah</small>
+                        </div>
+                        <span class="badge bg-success text-uppercase p-2">Normal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
